@@ -78,8 +78,10 @@ class Agent:
             number_of_boxes_attainable += 1
         return number_of_boxes_attainable
 
-    def get_number_of_around(letter, self):
+    def get_number_of_around(self, letter):
         number_around = 0
+        print(self.get_north())
+        print(letter)
         if self.get_north() == letter:
             number_around += 1
         if self.get_south() == letter:
@@ -120,7 +122,7 @@ class Agent:
     def leave_object(self, objet_porte):
         matrix[self.l][self.c] = 'X'+objet_porte
 
-    def decision(probability):
+    def decision(self, probability):
         return random.random() < probability
 
     def f(self, encountered_object):
@@ -173,11 +175,11 @@ class Agent:
     def update_t(self, object):
         self.move()
 
-    def p_prise(f):
-        return (k_plus / (k_plus + f)) ^ 2
+    def p_prise(self, f):
+        return pow((k_plus / (k_plus + f)), 2)
 
-    def p_depot(f):
-        return (f / (k_moins + f)) ^ 2
+    def p_depot(self, f):
+        return pow((f / (k_moins + f)), 2)
 
 
 def scheduler():
