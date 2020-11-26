@@ -131,18 +131,20 @@ class Agent:
 
     def move_randomly(self):
         number_of_possible_moves = self.get_number_of_boxes_attainable()
-        list_of_possible_moves = []
-        if self.get_north() == 'W' or 'X' in self.get_north():
-            list_of_possible_moves.append(self.get_north)
-        if self.get_south() == 'W' or 'X' in self.get_south():
-            list_of_possible_moves.append(self.get_south)
-        if self.get_east() == 'W' or 'X' in self.get_east():
-            list_of_possible_moves.append(self.get_east)
-        if self.get_west() == 'W' or 'X' in self.get_west():
-            list_of_possible_moves.append(self.get_west)
 
-        r = random.randint(0, number_of_possible_moves)
-        list_of_possible_moves[r]()
+        if number_of_possible_moves != 0:
+            list_of_possible_moves = []
+            if self.get_north() == 'W' or 'X' in self.get_north():
+                list_of_possible_moves.append(self.get_north)
+            if self.get_south() == 'W' or 'X' in self.get_south():
+                list_of_possible_moves.append(self.get_south)
+            if self.get_east() == 'W' or 'X' in self.get_east():
+                list_of_possible_moves.append(self.get_east)
+            if self.get_west() == 'W' or 'X' in self.get_west():
+                list_of_possible_moves.append(self.get_west)
+
+            r = random.randint(0, number_of_possible_moves)
+            list_of_possible_moves[r]()
 
     def move_north(self):
         self.move(self.l - 1, self.c)
