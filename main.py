@@ -133,13 +133,13 @@ class Agent:
         list_of_possible_moves = []
 
         if self.get_north() != 'W' and 'X' not in self.get_north():
-            list_of_possible_moves.append(self.get_north)
+            list_of_possible_moves.append(self.move_north)
         if self.get_south() != 'W' and 'X' not in self.get_south():
-            list_of_possible_moves.append(self.get_south)
+            list_of_possible_moves.append(self.move_south)
         if self.get_east() != 'W' and 'X' not in self.get_east():
-            list_of_possible_moves.append(self.get_east)
+            list_of_possible_moves.append(self.move_east)
         if self.get_west() != 'W' and 'X' not in self.get_west():
-            list_of_possible_moves.append(self.get_west)
+            list_of_possible_moves.append(self.move_west)
 
         r = random.randint(0, len(list_of_possible_moves) - 1)
         list_of_possible_moves[r]()
@@ -157,11 +157,15 @@ class Agent:
         self.move(self.l, self.c - 1)
 
     def move(self, l, c):
-        encountred_object = self.get_position(l, c)
+        encountred_object = get_position(l, c)
         self.t.append(encountred_object)
         if len(self.t) > 10:
             self.t.pop(0)
-        matrix[self.l][self.c] = self.t[-2]
+        if len(self.t) > 1:
+            matrix[self.l][self.c] = self.t[-2]
+        else:
+            # si c'est le premier deplacement de l'agent
+            matrix[self.l][self.c] ='0'
         self.l = l
         self.c = c
         matrix[self.l][self.c] = 'X'
