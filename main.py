@@ -45,14 +45,82 @@ def p_prise(k_plus, f):
 def p_depot(k_moins, f):
     return (f / (k_moins + f)) ^ 2
 
+def get_position(l, c):
+    if l >= 0 and l < len(matrix) and c >= 0 and c < len(matrix[0]):
+        return matrix[l][c]
+    else
+        return 'W' # Wall
+
 class Agent:
 
     t_size = 10
     t = []
+    objet_porte = '0'
+
     def __init__(self, l, c):
         self.l = l
         self.c = c
 
+    def get_north(self):
+        return get_position(l - 1, c)
+
+    def get_south(self):
+        return get_position(l + 1, c)
+
+    def get_east(self):
+        return get_position(l, c + 1)
+
+    def get_west(self):
+        return get_position(l, c - 1)
+
+    def get_number_of_around(letter, self):
+        number_around = 0
+
+        if self.get_north() == letter:
+            number_around += 1
+        if self.get_south() == letter:
+            number_around += 1
+        if self.get_east() == letter:
+            number_around += 1
+        if self.get_west() == letter:
+            number_around += 1
+
+        return number_around
+
+    def f(self):
+        if self.objet_porte != '0':
+
+    #    number_of_A = self.get_number_of_around('A')
+    #    number_of_B = self.get_number_of_around('B')
+
+    def action(self):
+        self.move_randomly()
+
+
+    def move_randomly(self):
+        #TODO EMNA choose randomly between
+        # possible moves
+        # (can't choose an impossible move)
+        # (move_north, move_south
+        # move_east, move_west)
+
+    def move_north(self, l, c):
+        self.move(l - 1, c)
+
+    def move_south(self):
+        self.move(l + 1, c)
+
+    def move_east(self):
+        self.move(l, c + 1)
+
+    def move_west(self):
+        self.move(l, c - 1)
+
+    def move(self, l, c):
+        #TODO EMNA
+
+    def update_t(self, object):
+        self.move()
 
 def  main():
     fill_with(na, 'A')
