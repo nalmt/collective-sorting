@@ -13,6 +13,8 @@ nb = 200
 
 matrix = np.full((50, 50), '0')
 
+np.set_printoptions(edgeitems=50)
+
 agents_list = []
 
 def fill_with(number_of_objects, object_type):
