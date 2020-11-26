@@ -41,7 +41,7 @@ def fill_agent(number_of_objects):
 def get_position(l, c):
     if l >= 0 and l < len(matrix) and c >= 0 and c < len(matrix[0]):
         return matrix[l][c]
-    else
+    else:
         return 'W' # Wall
 
 class Agent:
@@ -55,16 +55,16 @@ class Agent:
         self.c = c
 
     def get_north(self):
-        return get_position(l - 1, c)
+        return get_position(self.l - 1, self.c)
 
     def get_south(self):
-        return get_position(l + 1, c)
+        return get_position(self.l + 1, self.c)
 
     def get_east(self):
-        return get_position(l, c + 1)
+        return get_position(self.l, self.c + 1)
 
     def get_west(self):
-        return get_position(l, c - 1)
+        return get_position(self.l, self.c - 1)
 
     def get_number_of_boxes_attainable(self):
         number_of_boxes_attainable = 0
@@ -135,6 +135,15 @@ class Agent:
         # (can't choose an impossible move)
         # (move_north, move_south
         # move_east, move_west)
+        directionX, directionY = random.choice([(0, -1), (0, 1), (1, 0), (-1, 0)])
+        newl = self.l + directionX
+        newc = self.c + directionY
+        if 0 <= newl <= 50 and  0 <= newc <= 50 and get_position(newl, newc) != 'W':
+            self.move(newl, newc)
+
+
+
+
 
     def move_north(self):
         self.move(self.l - 1, self.c)
@@ -150,15 +159,17 @@ class Agent:
 
     def move(self, l, c):
         #TODO EMNA
+        matrix[self.l][self.c] = 0
+        matrix[l][c] = 'X'
 
     def update_t(self, object):
         self.move()
 
     def p_prise(f):
-    return (k_plus / (k_plus + f)) ^ 2
+        return (k_plus / (k_plus + f)) ^ 2
 
     def p_depot(f):
-    return (f / (k_moins + f)) ^ 2
+        return (f / (k_moins + f)) ^ 2
 
 
 def scheduler():
