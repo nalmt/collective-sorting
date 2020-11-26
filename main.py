@@ -7,7 +7,7 @@ import random
 i = 1
 number_of_agents = 20
 k_plus = 0.1
-k = 0.3
+k_moins = 0.3
 na = 200
 nb = 200
 
@@ -39,6 +39,11 @@ def fill_agent(number_of_objects):
         matrix[l][c] = 'X'
 
 
+def p_prise(k_plus, f):
+    return (k_plus / (k_plus + f)) ^ 2
+
+def p_depot(k_moins, f):
+    return (f / (k_moins + f)) ^ 2
 
 class Agent:
 
