@@ -149,7 +149,14 @@ class Agent:
         self.move(self.l, self.c - 1)
 
     def move(self, l, c):
-        #TODO EMNA
+        encountred_object = self.get_position(l, c)
+        self.t.append(encountred_object)
+        if len(self.t) > 10:
+            self.t.pop(0)
+        matrix[self.l][self.c] = self.t[-2]
+        self.l = l
+        self.c = c
+        matrix[self.l][self.c] = 'X'
 
     def update_t(self, object):
         self.move()
