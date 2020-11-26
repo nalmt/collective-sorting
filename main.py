@@ -1,8 +1,11 @@
 # TP2 SMA 
 # 21/10/20
 import numpy as np
+import sys
 from enum import Enum
 import random
+
+np.set_printoptions(threshold=sys.maxsize)
 
 i = 1
 number_of_agents = 20
@@ -80,8 +83,6 @@ class Agent:
 
     def get_number_of_around(self, letter):
         number_around = 0
-        print(self.get_north())
-        print(letter)
         if self.get_north() == letter:
             number_around += 1
         if self.get_south() == letter:
@@ -183,16 +184,34 @@ class Agent:
 
 
 def scheduler():
-    for _ in range(0, 10):
+    for _ in range(0, 10000):
         for agent in agents_list:
             agent.action()
-            print(matrix)
 
 def  main():
     fill_with(na, 'A')
     fill_with(nb, 'B')
+
     fill_agent(number_of_agents)
+
+    for l in matrix:
+        for c in l:
+            if c == '0':
+                print(' ', end='')
+            else:
+                print(c, end='')
+        print('')
+
     scheduler()
+    print("--------------------------------------------------------------------------------------------")
+    for l in matrix:
+        for c in l:
+            if c == '0':
+                print(' ', end='')
+            else:
+                print(c, end='')
+        print('')
+
 
 if __name__ == "__main__":
     main()
