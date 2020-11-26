@@ -38,13 +38,6 @@ def fill_agent(number_of_objects):
         agents_list.append(Agent(l, c))
         matrix[l][c] = 'X'
 
-
-def p_prise(k_plus, f):
-    return (k_plus / (k_plus + f)) ^ 2
-
-def p_depot(k_moins, f):
-    return (f / (k_moins + f)) ^ 2
-
 def get_position(l, c):
     if l >= 0 and l < len(matrix) and c >= 0 and c < len(matrix[0]):
         return matrix[l][c]
@@ -73,9 +66,20 @@ class Agent:
     def get_west(self):
         return get_position(l, c - 1)
 
+    def get_number_of_boxes_attainable(self):
+        number_of_boxes_attainable = 0
+        if self.get_north() != 'W' or not self.get_north().contains('X'):
+            number_of_boxes_attainable += 1
+        if self.get_south() != 'W' or not self.get_north().contains('X'):
+            number_of_boxes_attainable += 1
+        if self.get_east() != 'W' or not self.get_north().contains('X'):
+            number_of_boxes_attainable += 1
+        if self.get_west() != 'W' or not self.get_north().contains('X'):
+            number_of_boxes_attainable += 1
+        return number_of_boxes_attainable
+
     def get_number_of_around(letter, self):
         number_around = 0
-
         if self.get_north() == letter:
             number_around += 1
         if self.get_south() == letter:
@@ -84,18 +88,46 @@ class Agent:
             number_around += 1
         if self.get_west() == letter:
             number_around += 1
-
         return number_around
-
-    def f(self):
-        if self.objet_porte != '0':
-
-    #    number_of_A = self.get_number_of_around('A')
-    #    number_of_B = self.get_number_of_around('B')
 
     def action(self):
         self.move_randomly()
+        encountered_object = self.get_encountered_object()
 
+        if self.objet_porte == '0':
+            if encountered_object != '0':
+                p_prise = self.p_prise(self.f(encountered_object))
+                if self.decision(p_prise) == True:
+                    self.take_object(encountered_object)
+                else:
+                    matrix[self.l][self.c] = encountered_object
+            else:
+                matrix[self.l][self.c] = 'X'
+        else:
+            if encountered_object == '0':
+                p_depot = self.p_depot(self.f(self.objet_porte))
+                if self.decision(p_depot) == True:
+                    self.leave_object(self.objet_porte)
+                else:
+                    matrix[self.l][self.c] = 'X'
+            else:
+                matrix[self.l][self.c] = encountered_object
+
+    def take_object(self, encountered_object):
+        self.objet_porte = encountered_object
+        matrix[self.l][self.c] = 'X'
+
+    def leave_object(self, objet_porte):
+        matrix[self.l][self.c] = 'X'+objet_porte
+
+    def decision(probability):
+        return random.random() < probability
+
+    def f(self, encountered_object):
+        return self.get_number_of_around(encountered_object) / self.get_number_of_boxes_attainable()
+
+    def get_encountered_object(self):
+        return self.t[-1]
 
     def move_randomly(self):
         #TODO EMNA choose randomly between
@@ -104,17 +136,17 @@ class Agent:
         # (move_north, move_south
         # move_east, move_west)
 
-    def move_north(self, l, c):
-        self.move(l - 1, c)
+    def move_north(self):
+        self.move(self.l - 1, self.c)
 
     def move_south(self):
-        self.move(l + 1, c)
+        self.move(self.l + 1, self.c)
 
     def move_east(self):
-        self.move(l, c + 1)
+        self.move(self.l, self.c + 1)
 
     def move_west(self):
-        self.move(l, c - 1)
+        self.move(self.l, self.c - 1)
 
     def move(self, l, c):
         #TODO EMNA
@@ -122,16 +154,24 @@ class Agent:
     def update_t(self, object):
         self.move()
 
+    def p_prise(f):
+    return (k_plus / (k_plus + f)) ^ 2
+
+    def p_depot(f):
+    return (f / (k_moins + f)) ^ 2
+
+
+def scheduler():
+    for _ in range(0, 10):
+        for agent in agents_list:
+            agent.action()
+            print(matrix)
+
 def  main():
     fill_with(na, 'A')
     fill_with(nb, 'B')
     fill_agent(number_of_agents)
-    print(matrix)
-    print(agents_list)
-
-
-#def scheduler():
-
+    scheduler()
 
 if __name__ == "__main__":
     main()
