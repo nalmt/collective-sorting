@@ -5,17 +5,18 @@ import sys
 from enum import Enum
 import random
 
-NUMBER_OF_ITERATIONS = 100000
+NUMBER_OF_ITERATIONS = 5000
 NUMBER_OF_AGENTS = 20
 K_PLUS = 0.1
 K_MOINS = 0.3
 NA = 200
 NB = 200
 T_SIZE = 10
-ERREUR = 0.1
+ERREUR = 0
 N1 = 50
 N2 = 50
 I = 1
+
 
 matrix = np.full((N1, N2), '0')
 

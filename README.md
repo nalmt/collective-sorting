@@ -51,7 +51,7 @@ On créé une fonction de décision qui nous permet d'effectuer ou non une actio
         return random.random() < probability
 ```
 
-## Particularité des implémentations
+## Particularité des implémentations & choix
 
 > f is an estimation of the fraction of nearby points occupied by objects of the same type.
 
@@ -96,6 +96,9 @@ Nous avons également implémenté un agent qui utilise la première fonction de
 L'implémentation qui nous donne le plus de satisfaction est la première (`q1.py`, cf figure 3), la 3ème implémentation (`q1c.py`) est légèrement meilleure que la 2ème (`q1b.py`) mais elle n'affiche pas de clusters significatifs. On aurait pu également essayer une implémentation qui utilise la seconde fonction f pour la récolte et la première pour le dépôt. On ne s'attardera pas sur les implémentations mixtes pour la question 2.
 
 La première implémentation nous donne un petit nombre de clusters similaire à l'étape 2 de la figure 4 de l'article "The dynamics of collecting sorting robot - like ants and ant - like robot" de J.L. Deneubourg, S. Goss, N. Franks, A. Sendova-Franks, C. Detrain et L. Chrétien (cf figure 3).
+
+La première fonction d'estimation de voisinage regarde les voisins directs de l'agent. Elle est particulièrement adaptée à notre implémentation car nos agents peuvent traverser des clusters d'objets.
+La deuxième fonction n'est pas adaptée dans les cas où l'agent rencontre plusieurs fois le même objet (il va considérer qu'il y a plusieurs objets autours). Nous allons tout de même considérer les deux fonctions pour la question 2.
 
 ## Ajout d'un taux d'erreur sur la reconnaissance d'objet
 

@@ -5,40 +5,42 @@ import sys
 from enum import Enum
 import random
 
-NUMBER_OF_ITERATIONS = 10
+NUMBER_OF_ITERATIONS = 5000
 NUMBER_OF_AGENTS = 20
 K_PLUS = 0.1
 K_MOINS = 0.3
 NA = 200
 NB = 200
 T_SIZE = 10
-ERREUR = 0
-N = 50
+ERREUR = 0.2
+N1 = 50
+N2 = 50
 I = 1
 
-matrix = np.full((N, N), '0')
+
+matrix = np.full((N1, N2), '0')
 
 agents_list = []
 
 def fill_with(number_of_objects, object_type):
     for _ in range(number_of_objects):
-        l = random.randint(0, N - 1)
-        c = random.randint(0, N - 1)
+        l = random.randint(0, N1 - 1)
+        c = random.randint(0, N2 - 1)
 
         while matrix[l][c] != '0':
-            l = random.randint(0, N - 1)
-            c = random.randint(0, N - 1)
+            l = random.randint(0, N1 - 1)
+            c = random.randint(0, N2 - 1)
         
         matrix[l][c] = object_type
 
 def fill_agent(number_of_objects):
     for _ in range(number_of_objects):
-        l = random.randint(0, N - 1)
-        c = random.randint(0, N - 1)
+        l = random.randint(0, N1 - 1)
+        c = random.randint(0, N2 - 1)
 
         while matrix[l][c] != '0':
-            l = random.randint(0, N - 1)
-            c = random.randint(0, N - 1)
+            l = random.randint(0, N1 - 1)
+            c = random.randint(0, N2 - 1)
 
         agents_list.append(Agent(l, c))
         matrix[l][c] = 'X'
@@ -241,9 +243,9 @@ class Agent:
 
 
 def convert_matrix(m):
-    mat = np.zeros((N, N), int)
-    for l in range(0,N):
-        for c in range(0,N):
+    mat = np.zeros((N1, N2), int)
+    for l in range(0,N1):
+        for c in range(0,N2):
             if m[l][c] == '0':
                 mat[l][c] = 0
             elif m[l][c] == 'A':
