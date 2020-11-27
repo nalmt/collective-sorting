@@ -252,6 +252,7 @@ def print_matrix():
 
 def scheduler():
     pg.init()
+    pg.display.set_caption('Question1')
     screen = pg.display.set_mode((700, 700))
     clock = pg.time.Clock()
 
@@ -275,7 +276,6 @@ def scheduler():
             screen.fill((30, 30, 30))
             screen.blit(surface, (100, 100))
             pg.display.flip()
-            pg.display.set_caption('Question1')
             clock.tick(60)
 
 
