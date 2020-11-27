@@ -244,7 +244,11 @@ def print_matrix():
         for c in l:
             if c == '0':
                 print(' ', end='')
-            else:
+            elif c == 'A':
+                print(colored(c, 'red'), end='')
+            elif c == 'B':
+                print(colored(c, 'green'), end='')
+            elif c == 'X':
                 print(c, end='')
         print('|')
 
