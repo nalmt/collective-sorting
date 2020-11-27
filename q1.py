@@ -268,7 +268,7 @@ def scheduler():
             for agent in agents_list:
                 for _ in range(0, I):
                     agent.action()
-            print_matrix()
+           # print_matrix()
             m = convert_matrix(matrix)
             surface = pg.surfarray.make_surface(colors[m])
             surface = pg.transform.scale(surface, (500, 500))  # Scaled a bit.

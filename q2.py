@@ -266,7 +266,10 @@ def print_matrix():
 
 def scheduler():
     pg.init()
+    pg.font.init()
+    myfont = pg.font.SysFont('Comic Sans MS', 30)
     pg.display.set_caption('Question2')
+
     screen = pg.display.set_mode((700, 700))
     clock = pg.time.Clock()
 
@@ -282,13 +285,16 @@ def scheduler():
             for agent in agents_list:
                 for _ in range(0, I):
                     agent.action()
-            print_matrix()
+
+            #  print_matrix()
             m = convert_matrix(matrix)
             surface = pg.surfarray.make_surface(colors[m])
             surface = pg.transform.scale(surface, (500, 500))  # Scaled a bit.
-
+            print(_)
+            text = myfont.render("Interation n° "+ str(_), False, (255, 255, 255))
             screen.fill((30, 30, 30))
             screen.blit(surface, (100, 100))
+            screen.blit(text,(10,30))
             pg.display.flip()
             clock.tick(60)
 
