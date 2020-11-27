@@ -5,6 +5,7 @@ import sys
 from enum import Enum
 import random
 from termcolor import colored
+import pygame as pg
 
 NUMBER_OF_ITERATIONS = 50000
 NUMBER_OF_AGENTS = 20
@@ -219,12 +220,20 @@ class Agent:
     def p_depot(self, f):
         return pow((f / (K_MOINS + f)), 2)
 
+def convert_matrix(m):
+    mat = np.zeros((N, N), int)
+    for l in range(0,N):
+        for c in range(0,N):
+            if m[l][c] == '0':
+                mat[l][c] = 0
+            elif m[l][c] == 'A':
+                mat[l][c] = 1
+            elif m[l][c] == 'B':
+                mat[l][c] = 2
+            elif m[l][c] == 'X':
+                mat[l][c] = 3
 
-def scheduler():
-    for _ in range(0, NUMBER_OF_ITERATIONS):
-        for agent in agents_list:
-            for _ in range (0, I):
-                agent.action()
+    return mat
 
 def print_matrix():
     for l in matrix:
@@ -241,18 +250,42 @@ def print_matrix():
         print('|')
 
 
-def  main():
+def scheduler():
+    pg.init()
+    screen = pg.display.set_mode((700, 700))
+    clock = pg.time.Clock()
+
+    colors = np.array([[0, 0, 0], [255, 0, 0], [0, 0, 255], [255, 255, 255]])
+
+    running = True
+    while running:
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                running = False
+        for _ in range(0, NUMBER_OF_ITERATIONS):
+
+            for agent in agents_list:
+                for _ in range(0, I):
+                    agent.action()
+            print_matrix()
+            m = convert_matrix(matrix)
+            surface = pg.surfarray.make_surface(colors[m])
+            surface = pg.transform.scale(surface, (500, 500))  # Scaled a bit.
+
+            screen.fill((30, 30, 30))
+            screen.blit(surface, (100, 100))
+            pg.display.flip()
+            pg.display.set_caption('Question1')
+            clock.tick(60)
+
+
+
+
+def main():
     fill_with(NA, 'A')
     fill_with(NB, 'B')
-
     fill_agent(NUMBER_OF_AGENTS)
-
-    print_matrix()
     scheduler()
-    print('')
-    print('--------------------------------------')
-    print('')
-    print_matrix()
 
 if __name__ == "__main__":
     main()
