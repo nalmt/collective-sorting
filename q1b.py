@@ -1,13 +1,11 @@
-# TP2 SMA 
-# 21/10/20
+from termcolor import colored
+#import pygame as pg
 import numpy as np
 import sys
 from enum import Enum
 import random
-from termcolor import colored
-import pygame as pg
 
-NUMBER_OF_ITERATIONS = 50000
+NUMBER_OF_ITERATIONS = 100
 NUMBER_OF_AGENTS = 20
 K_PLUS = 0.1
 K_MOINS = 0.3
@@ -15,32 +13,33 @@ NA = 200
 NB = 200
 T_SIZE = 10
 ERREUR = 0.1
-N = 50
+N1 = 50
+N2 = 50
 I = 1
 
-matrix = np.full((N, N), '0')
+matrix = np.full((N1, N2), '0')
 
 agents_list = []
 
 def fill_with(number_of_objects, object_type):
     for _ in range(number_of_objects):
-        l = random.randint(0, N - 1)
-        c = random.randint(0, N - 1)
+        l = random.randint(0, N1 - 1)
+        c = random.randint(0, N2 - 1)
 
         while matrix[l][c] != '0':
-            l = random.randint(0, N - 1)
-            c = random.randint(0, N - 1)
+            l = random.randint(0, N1 - 1)
+            c = random.randint(0, N2 - 1)
         
         matrix[l][c] = object_type
 
 def fill_agent(number_of_objects):
     for _ in range(number_of_objects):
-        l = random.randint(0, N - 1)
-        c = random.randint(0, N - 1)
+        l = random.randint(0, N1 - 1)
+        c = random.randint(0, N2 - 1)
 
         while matrix[l][c] != '0':
-            l = random.randint(0, N - 1)
-            c = random.randint(0, N - 1)
+            l = random.randint(0, N1 - 1)
+            c = random.randint(0, N2 - 1)
 
         agents_list.append(Agent(l, c))
         matrix[l][c] = 'X'
@@ -93,16 +92,8 @@ class Agent:
     # return number of the object 'letter' ('A' or 'B')
     # in the boxes around (N, S, E, W)
     def get_number_of_around(self, letter):
-        number_around = 0
-        if letter in self.get_north():
-            number_around += 1
-        if letter in self.get_south():
-            number_around += 1
-        if letter in self.get_east():
-            number_around += 1
-        if letter in self.get_west():
-            number_around += 1
-        return number_around
+        return self.t.count(letter)
+
 
     def action(self):
         self.move_randomly()
@@ -149,7 +140,7 @@ class Agent:
         return random.random() < probability
 
     def f(self, encountered_object):
-        return self.get_number_of_around(encountered_object)/self.number_of_boxes()
+        return self.get_number_of_around(encountered_object)/len(self.t)
 
     def get_encountered_object(self):
         return self.t[-1]
@@ -221,9 +212,9 @@ class Agent:
         return pow((f / (K_MOINS + f)), 2)
 
 def convert_matrix(m):
-    mat = np.zeros((N, N), int)
-    for l in range(0,N):
-        for c in range(0,N):
+    mat = np.zeros((N1, N2), int)
+    for l in range(0,N1):
+        for c in range(0,N2):
             if m[l][c] == '0':
                 mat[l][c] = 0
             elif m[l][c] == 'A':
@@ -251,32 +242,33 @@ def print_matrix():
 
 
 def scheduler():
-    pg.init()
-    pg.display.set_caption('Question1')
-    screen = pg.display.set_mode((700, 700))
-    clock = pg.time.Clock()
+    #pg.init()
+    #pg.display.set_caption('Question1')
+    #screen = pg.display.set_mode((700, 700))
+    #clock = pg.time.Clock()
 
     colors = np.array([[0, 0, 0], [255, 0, 0], [0, 0, 255], [255, 255, 255]])
 
-    running = True
-    while running:
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                running = False
-        for _ in range(0, NUMBER_OF_ITERATIONS):
+    #running = True
+    #while running:
+    #    for event in pg.event.get():
+    #        if event.type == pg.QUIT:
+    #            running = False
+    for _ in range(0, NUMBER_OF_ITERATIONS):
 
-            for agent in agents_list:
-                for _ in range(0, I):
-                    agent.action()
-            print_matrix()
-            m = convert_matrix(matrix)
-            surface = pg.surfarray.make_surface(colors[m])
-            surface = pg.transform.scale(surface, (500, 500))  # Scaled a bit.
+        for agent in agents_list:
+            for _ in range(0, I):
+                agent.action()
+          #  print_matrix()
 
-            screen.fill((30, 30, 30))
-            screen.blit(surface, (100, 100))
-            pg.display.flip()
-            clock.tick(60)
+           # m = convert_matrix(matrix)
+           # surface = pg.surfarray.make_surface(colors[m])
+           # surface = pg.transform.scale(surface, (500, 500))  # Scaled a bit.
+
+           # screen.fill((30, 30, 30))
+           # screen.blit(surface, (100, 100))
+           # pg.display.flip()
+           # clock.tick(60)
 
 
 
@@ -285,7 +277,11 @@ def main():
     fill_with(NA, 'A')
     fill_with(NB, 'B')
     fill_agent(NUMBER_OF_AGENTS)
+
+    print_matrix()
+    print("-------------------------")
     scheduler()
+    print_matrix()
 
 if __name__ == "__main__":
     main()
