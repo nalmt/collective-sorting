@@ -32,7 +32,7 @@ On créé une fonction de décision qui nous permet d'effectuer ou non une actio
 
 f is an estimation of the fraction of nearby points occupied by objects of the same type.
 
-La fonction f qui est utilisé dans les fonction de probabilité représente.
+La fonction f qui est utilisé dans les fonction de probabilité représente la proportion d'objets similaire à celui qu'on traite.
 
 ```python
 def f(self, encountered_object):
